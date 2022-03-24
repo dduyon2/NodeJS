@@ -46,11 +46,11 @@ function handleRoomSubmit(event) {
     input.value = "";
 }
 
-function showRoom() {
+function showRoom(count) {
     room.hidden=false;
     form.hidden = true;
     const h3 = room.querySelector("h3");
-    h3.innerText = `ROOM ${roomName}`;
+    h3.innerText = `ROOM ${roomName} (${count})`;
     const msgForm = room.querySelector("#msg");
     msgForm.addEventListener("submit", handleMessageSubmit);
 }
@@ -66,23 +66,29 @@ function handleNicknameSubmit(event) {
 // form.addEventListener("submit", handleRoomSubmit);
 nameForm.addEventListener("submit", handleNicknameSubmit);
 
-socket.on("welcome", (user) => {
+socket.on("welcome", (user, newCount) => {
+    const h3 = room.querySelector("h3");
+    h3.innerText = `ROOM ${roomName} (${newCount})`;
     addMessage(`${user} arrived!`);
 });
-socket.on("bye", (left) => {
+socket.on("bye", (left, newCount) => {
+    const h3 = room.querySelector("h3");
+    h3.innerText = `ROOM ${roomName} (${newCount})`;
     addMessage(`${left} left :(`);
 });
 
 socket.on("new_message", addMessage);
 
-socket.on("room_chane", (rooms)=> {
+socket.on("room_change", (rooms)=> {
     const roomList = welcome.querySelector("ul");
     roomList.innerHTML="";
     if(rooms.length === 0) {
         roomList.innerHTML = "";
         return;
     }
+    console.log(rooms);
     rooms.forEach( room => {
+        console.log(room);
         const li = document.createElement("li");
         li.innerText = room;
         roomList.append(li);
