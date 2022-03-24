@@ -9,6 +9,23 @@ html(lang="en")
     body 
         header 
             h1 SOOM 
-        main
-            h2 Welcome to Soom
+        main 
+        div#welcome
+            form
+                input(type="text", placeholder="Write room name", required)
+                button Enter Room  
+            h4 Open Rooms: 
+            ul 
+        div#name
+            form
+                input(type="text", required, placeholder="Write your nickname")
+                button Save
+        div#room
+            h3
+            h4 
+            ul 
+            form#msg
+                input(type="text", required, placeholder="message")
+                button Send
+        script(src="/socket.io/socket.io.js") 
         script(src="/public/js/app.js") 
